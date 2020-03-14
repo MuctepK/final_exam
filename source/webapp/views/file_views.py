@@ -32,12 +32,12 @@ class FileDetailView(PermissionRequiredMixin, DetailView):
 
     def has_permission(self):
         file = self.get_object()
-        in_group = True
-        try:
-            PrivateAccess.objects.get(file=file, user=self.request.user)
-        except ObjectDoesNotExist:
-            in_group = False
         if file.type == FILE_PRIVATE_CHOICE:
+            in_group = True
+            try:
+                PrivateAccess.objects.get(file=file, user=self.request.user)
+            except ObjectDoesNotExist:
+                in_group = False
             return super().has_permission() or self.request.user == file.author or in_group
         return True
 
