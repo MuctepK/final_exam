@@ -24,8 +24,8 @@ class File(models.Model):
 
 
 class PrivateAccess(models.Model):
-    user_id = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Доступ к пользователю',
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Доступ к пользователю',
                                 related_name='accessed_files')
-    file_id = models.ForeignKey(File, on_delete=models.CASCADE, verbose_name='Доступ к файлу',
+    file = models.ForeignKey(File, on_delete=models.CASCADE, verbose_name='Доступ к файлу',
                                 related_name='accessed_to')
 

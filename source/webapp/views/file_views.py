@@ -22,10 +22,17 @@ class IndexView(ListView):
         return context
 
 
-class FileDetailView(DetailView):
+class FileDetailView(PermissionRequiredMixin, DetailView):
     template_name = 'files/file_detail.html'
     model = File
     context_object_name = 'file'
+    permission_required = 'webapp.view_file'
+
+    def has_permission(self):
+        file = self.get_object()
+        if file.type == FILE_PRIVATE_CHOICE:
+            return super().has_permission() or self.request.user == file.author
+        return True
 
 
 class FileCreateView(CreateView):

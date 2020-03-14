@@ -19,8 +19,6 @@ def can_edit(user, file):
 def check_access(file, user):
     if  file.type == FILE_COMMON_CHOICE:
         return True
-    elif file.type == FILE_HIDDEN_CHOICE:
-        return file.author == user
     else:
         return file.author == user
 
