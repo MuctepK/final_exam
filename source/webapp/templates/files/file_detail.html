@@ -37,12 +37,18 @@
         </form>
         <div class="my-5" id="user-block">
         {% for user in file.get_users_have_access %}
-
+            <div id="single_user_{{ user.pk }}">
             <h3 class="text-center">
                 <a href="{% url 'webapp:profile' user.pk %}"> {{ user }}</a>
-                <a href="#" class="btn btn-danger ml-3">Удалить</a>
+                <a href="#" id="user_delete_{{ user.pk }}" class="btn btn-danger ml-3">Удалить</a>
+                <script>
+                    $(`#user_delete_{{ user.pk }}`).on('click', function(event){
+                        event.preventDefault();
+                        deleteAccess({{ user.pk }});
+                    })
+                </script>
             </h3>
-
+            </div>
             {% empty %}
             <h3 class="text-center">Нету пользователя кто имел бы доступ к этому файлу</h3>
         {% endfor %}

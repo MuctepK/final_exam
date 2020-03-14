@@ -3,6 +3,7 @@ from django.urls import path
 
 from webapp.views import IndexView, FileDetailView, FileCreateView, FileUpdateView, FileDeleteView, FileSearchView, \
    ProfileView, GrantAccessView, AccessableView
+from webapp.views.api_views import DeleteAccessView
 
 urlpatterns = [
    path('', IndexView.as_view(), name='index'),
@@ -15,7 +16,8 @@ urlpatterns = [
    path('logout/', LogoutView.as_view(), name='logout'),
    path('<int:pk>/profile/', ProfileView.as_view(), name='profile'),
    path('<int:pk>/accessable/', AccessableView.as_view(), name='accessable'),
-   path('grant_access/', GrantAccessView.as_view(), name='grant_access')
+   path('<int:pk>/grant_access/', GrantAccessView.as_view(), name='grant_access'),
+   path('<int:pk>/delete_access/', DeleteAccessView.as_view(), name='delete_access')
 ]
 
 app_name = 'webapp'

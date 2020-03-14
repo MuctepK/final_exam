@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import FileForm, SimpleSearchForm, AnonymousForm
-from webapp.models import File, FILE_COMMON_CHOICE, FILE_HIDDEN_CHOICE, FILE_PRIVATE_CHOICE
+from webapp.models import File, FILE_COMMON_CHOICE, FILE_HIDDEN_CHOICE, FILE_PRIVATE_CHOICE, PrivateAccess
 
 
 class IndexView(ListView):
@@ -31,8 +32,13 @@ class FileDetailView(PermissionRequiredMixin, DetailView):
 
     def has_permission(self):
         file = self.get_object()
+        in_group = True
+        try:
+            PrivateAccess.objects.get(file=file, user=self.request.user)
+        except ObjectDoesNotExist:
+            in_group = False
         if file.type == FILE_PRIVATE_CHOICE:
-            return super().has_permission() or self.request.user == file.author
+            return super().has_permission() or self.request.user == file.author or in_group
         return True
 
 

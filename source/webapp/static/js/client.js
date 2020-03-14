@@ -64,6 +64,8 @@ function addSuccess(form, type) {
     let text;
     if (type === 1)
         text = 'Пользователь успешно добавлен';
+    else
+        text = 'Пользователь успешно удалён';
     if (form.children('.success').length <= 0) {
         form.prepend(`<div class="success text-center">
             <p class="text-success">${text}</p>
@@ -81,41 +83,46 @@ function grantAccess(name, id){
 
     let credentials = {name, id};
     console.log(credentials);
-    let request = makeRequest('grant_access', 'post', true, credentials);
+    let request = makeRequest(fileId+'/grant_access/', 'post', true, credentials);
     request.done(function(data, status, response){
-        username = JSON.parse(response.responseText).username;
+        userName = JSON.parse(response.responseText).username;
         id = JSON.parse(response.responseText).id;
-        profileLink = `http://localhost:8000/${id}/profile/`
+        profileLink = `http://localhost:8000/${id}/profile/`;
         userBlock.append($(`
+         <div id="single_user_${id}">
           <h3 class="text-center">
-                <a href="${profileLink}"> ${username}</a>
-                <a href="" class="btn btn-danger ml-3">Удалить</a>
-            </h3>`));
-        addSuccess(grantAccessForm, 1);
+                <a href="${profileLink}"> ${userName}</a>
+                <a href="#" id="user_delete_${id}" class="btn btn-danger ml-3">Удалить</a>
+            </h3>
+            </div>`));
 
-        //   $(`#delete_comment_${data.id}`).on('click', function(event){
-        //         event.preventDefault();
-        //         deleteComment(data.id);
-        //     });
-        //   deleteError();
-        // createTextInput.val("");
+        $(`#user_delete_`+id).on('click', function(event){
+                        event.preventDefault();
+                        deleteAccess(id);
+                    });
+
+        addSuccess(grantAccessForm, 1);
+        username.val("");
     }).fail(function (response, status, message) {
         text = JSON.parse(response.responseText).error;
         if (text === 'Does Not Exist')
             addError(grantAccessForm, 1);
         else if (text === 'Grant Exists')
             addError(grantAccessForm, 2);
-
+        username.val("");
     })
 }
-function deleteComment(id){
-    let request = makeRequest('comment/' + id, 'delete', true,);
+function deleteAccess(userId){
+        deleteError();
+        deleteSuccess();
+    let credentials = {userId};
+    console.log(credentials);
+    let request = makeRequest(fileId+'/delete_access/', 'post', true, credentials);
     request.done(function(data,status,response){
-        $(`#comment_${id}`).remove();
-        console.log("deleted");
+        $(`#single_user_${userId}`).remove();
+        addSuccess(grantAccessForm, 2);
     }).fail(function(response, status, message){
-        console.log(response.responseText.text);
-
+        console.log(response.responseText);
     })
 }
 
