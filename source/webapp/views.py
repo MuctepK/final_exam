@@ -82,3 +82,4 @@ class FileSearchView(ListView):
             if key != 'page':
                 data[key] = self.request.GET.get(key)
         return urlencode(data)
+

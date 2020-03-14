@@ -32,9 +32,9 @@
                 <li class="nav-item"><a href="" class="nav-link">
                     Привет, {{ request.user.username }}!
                 </a></li>
-                <li class="nav-item"><a href="" class="nav-link">Выход</a></li>
+                <li class="nav-item"><a href="{% url 'webapp:logout' %}" class="nav-link">Выход</a></li>
             {% else %}
-                <li class="nav-item"><a href="" class="nav-link">Вход</a></li>
+                <li class="nav-item"><a href="{% url 'webapp:login' %}" class="nav-link">Вход</a></li>
             {% endif %}
         </ul>
     </div>
