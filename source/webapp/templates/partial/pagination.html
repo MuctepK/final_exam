@@ -1,11 +1,12 @@
-<div class="pagination">
+<div class="pagination justify-content-center">
     <form action="" method="GET">
-        <a href="?{% if query %}{{ query }}&{% endif %}page=1">&laquo; В начало</a>
+    <ul class="pagination">
+        <li class="page-item"><a href="?{% if query %}{{ query }}&{% endif %}page=1" class="page-link">&laquo; В начало</a></li>
 
         {% if page_obj.has_previous %}
-            <a href="?{% if query %}{{ query }}&{% endif %}page={{ page_obj.previous_page_number }}">Назад</a>
+            <li class="page-item"><a href="?{% if query %}{{ query }}&{% endif %}page={{ page_obj.previous_page_number }}" class="page-link">Назад</a></li>
         {% else %}
-            <span class="page-disabled">Назад</span>
+            <li class="page-item"><span class="page-link disabled">Назад</span></li>
         {% endif %}
 
         <span>
@@ -13,20 +14,12 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?{% if query %}{{ query }}&{% endif %}page={{ page_obj.next_page_number }}">Далее</a>
+            <li class="page-item"><a href="?{% if query %}{{ query }}&{% endif %}page={{ page_obj.next_page_number }}" class="page-link">Далее</a></li>
         {% else %}
-            <span class="page-disabled">Далее</span>
+            <li class="page-item"><span class="disabled page-link">Далее</span></li>
         {% endif %}
 
-        <a href="?{% if query %}{{ query }}&{% endif %}page={{ paginator.num_pages }}">В конец &raquo;</a>
+        <li class="page-item"><a href="?{% if query %}{{ query }}&{% endif %}page={{ paginator.num_pages }}" class="page-link">В конец &raquo;</a></li>
+    </ul>
     </form>
-    <div>
-        {% for page in paginator.page_range %}
-            {% if page_obj.number == page %}
-                <span class="page-active">{{ page }}</span>
-            {% else %}
-                <a href="?{% if query %}{{ query }}&{% endif %}page={{ page }}">{{ page }}</a>
-            {% endif %}
-        {% endfor %}
-    </div>
 </div>
