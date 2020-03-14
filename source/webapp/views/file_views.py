@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -41,19 +42,29 @@ class FileCreateView(CreateView):
         return reverse("webapp:detail_file", kwargs={"pk": self.object.pk})
 
 
-class FileUpdateView(UpdateView):
+class FileUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'files/file_update.html'
     model = File
     form_class = FileForm
+    permission_required = 'webapp.change_file'
+    login_url = reverse_lazy('webapp:login')
 
     def get_success_url(self):
         return reverse("webapp:detail_file", kwargs={"pk": self.object.pk})
 
+    def has_permission(self):
+        return super().has_permission() or self.get_object().author == self.request.user
 
-class FileDeleteView(DeleteView):
+
+class FileDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'files/file_delete.html'
     model = File
     success_url = reverse_lazy('webapp:index')
+    permission_required = 'webapp.delete_file'
+    login_url = reverse_lazy('webapp:login')
+
+    def has_permission(self):
+        return super().has_permission() or self.get_object().author == self.request.user
 
 
 class FileSearchView(ListView):

@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load permissiong_tags %}
 {% block title %}
     {{ file.name }}
 {% endblock %}
 {% block menu %}
+    {% if request.user|can_edit:file %}
     <li class="nav-item"><a href="{% url 'webapp:change_file' file.pk %}" class="nav-link">Изменить этот файл</a></li>
+    {% endif %}
+    {% if request.user|can_delete:file %}
     <li class="nav-item"><a href="{% url 'webapp:delete_file' file.pk %}" class="nav-link">Удалить этот файл</a></li>
+    {% endif %}
 
 {% endblock %}
 {% block content %}
