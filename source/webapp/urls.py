@@ -3,6 +3,7 @@ from django.urls import path
 
 from webapp.views import IndexView, FileDetailView, FileCreateView, FileUpdateView, FileDeleteView, FileSearchView, \
    ProfileView
+from webapp.views.profile_views import AccessableView
 
 urlpatterns = [
    path('', IndexView.as_view(), name='index'),
@@ -13,7 +14,8 @@ urlpatterns = [
    path('search/', FileSearchView.as_view(), name='search'),
    path('login/', LoginView.as_view(), name='login'),
    path('logout/', LogoutView.as_view(), name='logout'),
-   path('<int:pk>/profile/', ProfileView.as_view(), name='profile')
+   path('<int:pk>/profile/', ProfileView.as_view(), name='profile'),
+   path('<int:pk>/accessable/', AccessableView.as_view(), name='accessable')
 ]
 
 app_name = 'webapp'

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView
 
@@ -21,3 +22,25 @@ class ProfileView(ListView):
         return super().get_context_data(
             user=user, object_list=object_list, **kwargs
         )
+
+
+class AccessableView(UserPassesTestMixin, ListView):
+    model = File
+    template_name = 'profile/accessable.html'
+    context_object_name = 'files'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return self.get_user().get_accessable_files()
+
+    def get_user(self):
+        return User.objects.get(pk=self.kwargs.get('pk'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        user = self.get_user()
+        return super().get_context_data(
+            user=user, object_list=object_list, **kwargs
+        )
+
+    def test_func(self):
+        return self.request.user == self.get_user()

@@ -1,4 +1,14 @@
 from django.db import models
+from django.db.models import Q
+from django.contrib.auth.models import User
+
+
+def get_accessable_files(self):
+    return File.objects.filter(accessed_to__user=self).order_by('-created_at')
+
+
+User.add_to_class('get_accessable_files', get_accessable_files)
+
 
 FILE_ACCESS_CHOICES = [
     ('common', 'Общий'),
@@ -28,4 +38,5 @@ class PrivateAccess(models.Model):
                                 related_name='accessed_files')
     file = models.ForeignKey(File, on_delete=models.CASCADE, verbose_name='Доступ к файлу',
                                 related_name='accessed_to')
+
 

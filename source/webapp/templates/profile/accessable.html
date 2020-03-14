@@ -4,13 +4,13 @@
 {% endblock %}
 {% block menu %}
     {% if request.user == user %}
-    <li class="nav-item"><a href="{% url 'webapp:accessable' user.pk %}" class="nav-link">Доступные мне</a></li>
+    <li class="nav-item"><a href="{% url 'webapp:profile' user.pk %}" class="nav-link">Мои файлы</a></li>
     {% endif %}
 {% endblock %}
 {% block content %}
     <h1 class="text-center">Профиль пользователя {{ user }}</h1>
     {% if files %}
-        <h3 class="text-center mt-5">Файлы загруженные пользователем</h3>
+        <h3 class="text-center mt-5">Файлы к которому вам дали доступ</h3>
         <div class="row">
         {% for file in files %}
         {% include 'partial/file_card.html' %}
@@ -21,6 +21,6 @@
             {% include 'partial/pagination.html' %}
         {% endif %}
     {% else %}
-        <h3 class="text-center mt-5">Пользователь еще не загрузил файлов</h3>
+        <h3 class="text-center mt-5">У вас нету доступных файлов</h3>
     {% endif %}
 {% endblock %}

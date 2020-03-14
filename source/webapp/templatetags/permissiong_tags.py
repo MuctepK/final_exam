@@ -1,6 +1,6 @@
 from django import template
 
-from webapp.models import FILE_COMMON_CHOICE, FILE_HIDDEN_CHOICE
+from webapp.models import FILE_COMMON_CHOICE
 
 register = template.Library()
 
@@ -20,5 +20,5 @@ def check_access(file, user):
     if  file.type == FILE_COMMON_CHOICE:
         return True
     else:
-        return file.author == user
+        return file.author == user or user.has_perm('webapp.view_file')
 

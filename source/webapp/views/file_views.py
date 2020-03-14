@@ -27,6 +27,7 @@ class FileDetailView(PermissionRequiredMixin, DetailView):
     model = File
     context_object_name = 'file'
     permission_required = 'webapp.view_file'
+    login_url = reverse_lazy('webapp:login')
 
     def has_permission(self):
         file = self.get_object()
