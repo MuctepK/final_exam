@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from webapp.forms import FileForm
 from webapp.models import File
@@ -31,6 +31,15 @@ class FileCreateView(CreateView):
         if self.request.user.is_authenticated:
             form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("webapp:detail_file", kwargs={"pk": self.object.pk})
+
+
+class FileUpdateView(UpdateView):
+    template_name = 'file_update.html'
+    model = File
+    form_class = FileForm
 
     def get_success_url(self):
         return reverse("webapp:detail_file", kwargs={"pk": self.object.pk})

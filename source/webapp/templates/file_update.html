@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}
+    Обновить файла
+{% endblock %}
+{% block content %}
+    <h1>Изменение файла</h1>
+     <form method="POST"  enctype="multipart/form-data">
+    {% include 'partial/form.html' with button_text='Изменить'%}
+    </form>
+{% endblock %}
