@@ -38,32 +38,7 @@
         </ul>
     </div>
 </nav>
-<div class="modal fade" id="form_modal" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="form_title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="edit_form" class="d-none">
-                    <div class="form-group">
-                        <textarea class="form-control" type="text" name="text" id="edit_input_text" rows="10" cols="5"></textarea>
-                    </div>
-                    <div class="form-group">
-                    </div>
-                </form>
-            </div>
-             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary mr-auto" id="form_edit_submit"></button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="container mt-3 mb-3">
     {% block content %}{% endblock %}
 

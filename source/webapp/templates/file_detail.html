@@ -1,6 +1,14 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
-{% load widget_tweaks %}
-<div class="col-md-4 my-3">
+{% block title %}
+    {{ file.name }}
+{% endblock %}
+{% block menu %}
+    <li class="nav-item"><a href="#" class="nav-link">Удалить</a></li>
+    <li class="nav-item"><a href="#" class="nav-link">Изменить</a></li>
+{% endblock %}
+{% block content %}
+    <div class="text-center mx-auto mt-5 col-8 ">
      <div class="card mb-4 border-dark">
          <a href="{{ file.file.url }}" download><img class="card-img-top" src="{% static 'img/Download_link.png' %}" alt="Card image cap"></a>
         <div class="card-body">
@@ -10,3 +18,4 @@
         </div>
      </div>
 </div>
+{% endblock %}
