@@ -1,0 +1,12 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+<div class="col-md-4">
+     <div class="card mb-4 border-dark">
+         <a href="{{ file.file.url }}" download><img class="card-img-top" src="{% static 'img/Download_link.png' %}" alt="Card image cap"></a>
+        <div class="card-body">
+            <h6 class="card-title text-center"><a href="">{{file.name}}</a></h6>
+           <p class="card-text mr-auto">Добавлено: {{ file.created_at }}</p>
+            <p class="card-text ml-auto">Загрузил: {{ file.author|default:"Аноним" }}</p>
+        </div>
+     </div>
+</div>
