@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import FileForm
 from webapp.models import File
@@ -43,3 +43,9 @@ class FileUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse("webapp:detail_file", kwargs={"pk": self.object.pk})
+
+
+class FileDeleteView(DeleteView):
+    template_name = 'file_delete.html'
+    model = File
+    success_url = reverse_lazy('webapp:index')

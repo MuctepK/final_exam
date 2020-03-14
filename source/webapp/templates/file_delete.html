@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Удалить файл{% endblock %}
+{% block content %}
+    <h2 class="text-center mt-5">Вы уверены что хотите удалить файл :"{{ object }}"?</h2>
+    <form method="POST"  class="text-center">
+        {% csrf_token %}
+        <div class="confirm d-flex justify-content-center">
+            <p><input type="submit" value="Да" class="mt-5 btn btn-danger mr-5"></p>
+            <p><a href="{% url 'webapp:detail_file' object.pk %}" class="ml-5 mt-5 btn  btn-primary">Нет</a></p>
+        </div>
+    </form>
+{% endblock %}
