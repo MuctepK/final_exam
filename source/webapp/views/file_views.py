@@ -3,8 +3,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from webapp.forms import FileForm, SimpleSearchForm
-from webapp.models import File
+from webapp.forms import FileForm, SimpleSearchForm, AnonymousForm
+from webapp.models import File, FILE_COMMON_CHOICE, FILE_HIDDEN_CHOICE, FILE_PRIVATE_CHOICE
 
 
 class IndexView(ListView):
@@ -14,7 +14,7 @@ class IndexView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return File.objects.all().order_by('-created_at')
+        return File.objects.filter(type=FILE_COMMON_CHOICE).order_by('-created_at')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
@@ -32,6 +32,11 @@ class FileCreateView(CreateView):
     template_name = 'files/file_create.html'
     model = File
     form_class = FileForm
+
+    def get_form_class(self):
+        if self.request.user.is_anonymous:
+            return AnonymousForm
+        return super().get_form_class()
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -84,7 +89,8 @@ class FileSearchView(ListView):
         queryset = super().get_queryset()
         form = SimpleSearchForm(self.request.GET)
         if form.is_valid():
-            queryset = queryset.filter(name__icontains=form.cleaned_data['name']).order_by('-created_at')
+            queryset = queryset.filter(name__icontains=form.cleaned_data['name'],
+                                       type=FILE_COMMON_CHOICE).order_by('-created_at')
         return queryset
 
     def get_query_string(self):

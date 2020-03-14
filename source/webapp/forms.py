@@ -9,5 +9,11 @@ class FileForm(forms.ModelForm):
         exclude = ['author']
 
 
+class AnonymousForm(forms.ModelForm):
+    class Meta:
+        model = File
+        exclude = ['author', 'type']
+
+
 class SimpleSearchForm(forms.Form):
     name = forms.CharField(max_length=128, required=False, label='Название файла')
