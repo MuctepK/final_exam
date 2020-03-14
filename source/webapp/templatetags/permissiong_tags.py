@@ -20,5 +20,5 @@ def check_access(file, user):
     if  file.type == FILE_COMMON_CHOICE:
         return True
     else:
-        return file.author == user or user.has_perm('webapp.view_file')
+        return file.author == user or user.has_perm('webapp.view_file') or user.has_access(file)
 

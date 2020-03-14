@@ -2,8 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from webapp.views import IndexView, FileDetailView, FileCreateView, FileUpdateView, FileDeleteView, FileSearchView, \
-   ProfileView
-from webapp.views.profile_views import AccessableView
+   ProfileView, GrantAccessView, AccessableView
 
 urlpatterns = [
    path('', IndexView.as_view(), name='index'),
@@ -15,7 +14,8 @@ urlpatterns = [
    path('login/', LoginView.as_view(), name='login'),
    path('logout/', LogoutView.as_view(), name='logout'),
    path('<int:pk>/profile/', ProfileView.as_view(), name='profile'),
-   path('<int:pk>/accessable/', AccessableView.as_view(), name='accessable')
+   path('<int:pk>/accessable/', AccessableView.as_view(), name='accessable'),
+   path('grant_access/', GrantAccessView.as_view(), name='grant_access')
 ]
 
 app_name = 'webapp'

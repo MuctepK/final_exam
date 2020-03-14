@@ -21,7 +21,36 @@
             <h6 class="card-title text-center"><a href="{% url 'webapp:detail_file' file.pk %}">{{file.name}}</a></h6>
            <p class="card-text mr-auto">Добавлено: {{ file.created_at }}</p>
             <p class="card-text ml-auto">Загрузил: {{ file.author|default:"Аноним" }}</p>
+            <p class="card-text">Доступ: {{ file.get_type_display }}</p>
         </div>
      </div>
 </div>
+    {% if request.user|can_edit:file and file.type == 'private' %}
+        <h2 class="text-center my-3">Пользователи которые имеют доступ к этому файлу</h2>
+        <h4 class="text-center mt-5">Дать доступ к файлу</h4>
+        <form action="" class="my-5 " id="grant_access">
+        <div class="row justify-content-center text-center">
+            <label for="username" class="pt-2 mr-2">Имя пользователя</label>
+            <input type="text" name="user" class="form-control w-25 mr-3" id="username">
+            <input type="submit" value="Добавить" class="btn btn-primary" id="grant_access_button">
+            </div>
+        </form>
+        <div class="my-5" id="user-block">
+        {% for user in file.get_users_have_access %}
+
+            <h3 class="text-center">
+                <a href="{% url 'webapp:profile' user.pk %}"> {{ user }}</a>
+                <a href="#" class="btn btn-danger ml-3">Удалить</a>
+            </h3>
+
+            {% empty %}
+            <h3 class="text-center">Нету пользователя кто имел бы доступ к этому файлу</h3>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script>
+    fileId = {{ file.pk }};
+    </script>
 {% endblock %}
